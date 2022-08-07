@@ -17,13 +17,16 @@ class Game {
   }
 
   registerEvents() {
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-     */
+    document.addEventListener("keyup", (event) => {//При нажатиина shift-не отвечает
+      if (event.key === "Shift") {
+        return;
+      }
+      if (this.currentSymbol.textContent.toLowerCase() === event.key.toLowerCase()) {//Сравнение символов
+        this.success();//в случае правильного ввода слова
+      } else {
+        this.fail();//при неправильном вводе символа
+      }
+    });
   }
 
   success() {
@@ -56,18 +59,18 @@ class Game {
 
   getWord() {
     const words = [
-        'bob',
-        'awesome',
-        'netology',
-        'hello',
-        'kitty',
-        'rock',
-        'youtube',
-        'popcorn',
-        'cinema',
-        'love',
-        'javascript'
-      ],
+      'bob',
+      'awesome',
+      'netology',
+      'hello',
+      'kitty',
+      'rock',
+      'youtube',
+      'popcorn',
+      'cinema',
+      'love',
+      'javascript'
+    ],
       index = Math.floor(Math.random() * words.length);
 
     return words[index];
@@ -77,7 +80,7 @@ class Game {
     const html = [...word]
       .map(
         (s, i) =>
-          `<span class="symbol ${i === 0 ? 'symbol_current': ''}">${s}</span>`
+          `<span class="symbol ${i === 0 ? 'symbol_current' : ''}">${s}</span>`
       )
       .join('');
     this.wordElement.innerHTML = html;
