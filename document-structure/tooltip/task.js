@@ -2,24 +2,27 @@
 
 const hasTooltip = document.querySelectorAll(".has-tooltip");
 
-for (let i = 0; i < hasTooltip.length; i++) {
-   hasTooltip[i].insertAdjacentHTML("afterEnd", `<div class="tooltip">${hasTooltip[i].title}</div>`);
-
-   hasTooltip[i].addEventListener("click", (e) => {
+hasTooltip.forEach((elem) => {
+   elem.addEventListener("click", (e) => {
       e.preventDefault();
 
-      const tooltipList = document.querySelectorAll(".tooltip");
-      if (tooltipList[i].classList.contains("tooltip_active")) {
-         tooltipList[i].classList.remove("tooltip_active");
+      if (elem.childNodes.length > 1) {
+         elem.removeChild(elem.childNodes[1]);
       } else {
-         tooltipList[i].classList.add("tooltip_active");
+         hasTooltip.forEach((link => {
+            if (link.childNodes.length > 1) link.removeChild(link.childNodes[1]);
+         }));
 
-         let place = hasTooltip[i].getBoundingClientRect();
+         let place = String(elem.offsetLeft) + "px";
+         console.log(elem.getBoundingClientRect().top);
 
-         tooltipList[i].style.left = place.left + "px";
-         tooltipList[i].style.top = place.top + 20 + "px";
+         const tip = document.createElement("div");
+         tip.textContent = elem.getAttribute("title");
+         tip.classList.add("tooltip");
+         tip.classList.add("tooltip_active");
+         tip.style.marginLeft = place;
+         tip.style.position = "absolute";
+         elem.appendChild(tip);
       }
    })
-};
-
-
+})
