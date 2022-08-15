@@ -23,5 +23,7 @@ function addTask(event) {
    }
 }
 
-
+function removeTask() {
+   this.closest(".task").remove();
+}
 
